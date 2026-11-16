@@ -27,6 +27,7 @@ FetchContent_MakeAvailable(SFML)
 
 add_executable(TowerDefense
     src/main.cpp
+    "src/Map.cpp"
  )
 
 
