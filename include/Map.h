@@ -14,7 +14,13 @@ private:
     sf::Texture spawnerTexture;
     sf::Texture destinationTexture;
 
+    sf::Vector2i findTile(char tile) const;
+    sf::Vector2f tileToWorldCenter(sf::Vector2i tile) const;
+
 public:
     Map();
+
     void draw(sf::RenderWindow& window);
+    std::vector<sf::Vector2f> findPath() const;
+    sf::Vector2f getSpawnerPosition() const;
 };
