@@ -1,6 +1,8 @@
 #include "Config.h"
 #include "Map.h"
 #include "Enemy.h"
+#include "FastEnemy.h"
+#include "BruiserEnemy.h"
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
@@ -10,6 +12,8 @@
 #include <vector>
 #include <memory>
 #include <algorithm>
+#include <optional>
+#include <utility>
 
 int main()
 {
@@ -49,7 +53,22 @@ int main()
 
             if (spawnTimer >= nextSpawnTime)
             {
-                auto enemy = std::make_unique<Enemy>();
+                std::unique_ptr<Enemy> enemy;
+
+                int enemyType = rand() % 10;
+
+                if (enemyType >=0 && enemyType <= 4)
+                {
+                    enemy = std::make_unique<Enemy>();
+                }
+                else if (enemyType >= 5 && enemyType <= 6)
+                {
+                    enemy = std::make_unique<BruiserEnemy>();
+                }
+                else 
+                {
+                    enemy = std::make_unique<FastEnemy>();
+                }
 
                 enemy->setPosition(map.getSpawnerPosition());
                 enemy->setPath(map.findPath());

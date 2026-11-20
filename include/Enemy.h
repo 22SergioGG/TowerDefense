@@ -15,8 +15,15 @@ private:
     std::vector<sf::Vector2f> path;
     int currentPoint;
 
+protected:
+    virtual float getMovementSpeed() const;
+
 public:
     Enemy();
+    Enemy(int health, float spriteSize);
+
+    virtual ~Enemy() = default;
+
     void setPosition(sf::Vector2f position);
     void setPath(std::vector<sf::Vector2f> newPath);
     void update(float deltaTime);

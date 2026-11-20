@@ -3,12 +3,20 @@
 #include <cmath>
 
 Enemy::Enemy()
+    : Enemy(100, 1.0f)
+{
+}
+
+Enemy::Enemy(int health, float spriteSize)
     : enemyTexture("assets/enemy.png"),
     enemySprite(enemyTexture),
-    health(100),
+    health(health),
     speed(100.f),
     currentPoint(0)
+ 
 {
+    enemySprite.setScale({ spriteSize, spriteSize });
+
     enemySprite.setOrigin(sf::Vector2f(
         enemyTexture.getSize().x / 2.f,
         enemyTexture.getSize().y / 2.f
@@ -31,6 +39,11 @@ void Enemy::draw(sf::RenderWindow& window)
     window.draw(enemySprite);
 }
 
+float Enemy::getMovementSpeed() const
+{
+    return speed;
+}
+
 void Enemy::update(float deltaTime)
 {
     if (currentPoint >= path.size())
@@ -48,7 +61,7 @@ void Enemy::update(float deltaTime)
         direction.y * direction.y
     );
 
-    float movement = speed * deltaTime;
+    float movement = getMovementSpeed() * deltaTime;
 
     if (distance <= movement)
     {

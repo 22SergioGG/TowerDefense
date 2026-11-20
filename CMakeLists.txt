@@ -29,6 +29,8 @@ add_executable(TowerDefense
     src/main.cpp
     src/Map.cpp
     src/Enemy.cpp
+    src/FastEnemy.cpp
+    src/BruiserEnemy.cpp
 )
 
 
