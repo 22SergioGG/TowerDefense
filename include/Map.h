@@ -23,4 +23,5 @@ public:
     void draw(sf::RenderWindow& window);
     std::vector<sf::Vector2f> findPath() const;
     sf::Vector2f getSpawnerPosition() const;
+    bool canPlaceTurret(sf::Vector2i tile) const;
 };

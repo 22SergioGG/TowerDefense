@@ -46,7 +46,7 @@ float Enemy::getMovementSpeed() const
 
 void Enemy::update(float deltaTime)
 {
-    if (currentPoint >= path.size())
+    if (currentPoint >= static_cast<int>(path.size()))
     {
         return;
     }
@@ -56,11 +56,7 @@ void Enemy::update(float deltaTime)
 
     sf::Vector2f direction = target - position;
 
-    float distance = std::sqrt(
-        direction.x * direction.x +
-        direction.y * direction.y
-    );
-
+    float distance = std::hypot(direction.x, direction.y);
     float movement = getMovementSpeed() * deltaTime;
 
     if (distance <= movement)
@@ -80,4 +76,58 @@ void Enemy::update(float deltaTime)
 bool Enemy::hasReachedDestination() const
 {
     return !path.empty() && currentPoint >= static_cast<int>(path.size());
+}
+
+void Enemy::takeDamage(int damage)
+{
+    health -= damage;
+
+    if (health < 0)
+    {
+        health = 0;
+    }
+}
+
+int Enemy::getHealth() const
+{
+    return health;
+}
+
+bool Enemy::isAlive() const
+{
+    return health > 0;
+}
+
+sf::Vector2f Enemy::getPosition() const
+{
+    return enemySprite.getPosition();
+}
+
+float Enemy::getDistanceToDestination() const
+{
+    if (path.empty() || currentPoint >= static_cast<int>(path.size()))
+    {
+        return 0.f;
+    }
+
+    float distance = 0.f;
+
+    sf::Vector2f position = enemySprite.getPosition();
+
+    for (int i = currentPoint; i < static_cast<int>(path.size()); i++)
+    {
+        sf::Vector2f target = path[i];
+
+        sf::Vector2f direction = target - position;
+
+        distance += std::hypot(direction.x, direction.y);
+        position = target;
+    }
+
+    return distance;
+}
+
+bool Enemy::operator<(const Enemy& other) const
+{
+    return getDistanceToDestination() < other.getDistanceToDestination();
 }

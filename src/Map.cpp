@@ -211,3 +211,14 @@ sf::Vector2f Map::getSpawnerPosition() const
 
     return tileToWorldCenter(spawner);
 }
+
+bool Map::canPlaceTurret(sf::Vector2i tile) const
+{
+    if (tile.x < 0 || tile.x >= Config::MAP_WIDTH ||
+        tile.y < 0 || tile.y >= Config::MAP_HEIGHT)
+    {
+        return false;
+    }
+
+    return mapLayout[tile.y][tile.x] == 'G';
+}

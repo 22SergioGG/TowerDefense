@@ -31,6 +31,8 @@ add_executable(TowerDefense
     src/Enemy.cpp
     src/FastEnemy.cpp
     src/BruiserEnemy.cpp
+    src/Projectile.cpp
+    src/Turret.cpp
 )
 
 

@@ -3,6 +3,7 @@
 #include "Enemy.h"
 #include "FastEnemy.h"
 #include "BruiserEnemy.h"
+#include "Turret.h"
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
@@ -33,6 +34,7 @@ int main()
         Map map;
 
         std::vector<std::unique_ptr<Enemy>> enemies;
+        std::vector<std::unique_ptr<Turret>> turrets;
 
         sf::Clock clock;
 
@@ -43,6 +45,38 @@ int main()
                 if (event->is<sf::Event::Closed>())
                 {
                     window.close();
+                }
+
+                if (const auto* mouseButton = event->getIf<sf::Event::MouseButtonPressed>())
+                {
+                    if (mouseButton->button == sf::Mouse::Button::Left)
+                    {
+                        sf::Vector2i tile(
+                            mouseButton->position.x / Config::TILE_SIZE,
+                            mouseButton->position.y / Config::TILE_SIZE
+                        );
+
+                        if (map.canPlaceTurret(tile))
+                        {
+                            auto newTurret = std::make_unique<Turret>(tile);
+
+                            bool occupied = false;
+
+                            for (const auto& turret : turrets)
+                            {
+                                if (*turret == *newTurret)
+                                {
+                                    occupied = true;
+                                    break;
+                                }
+                            }
+
+                            if (!occupied)
+                            {
+                                turrets.push_back(std::move(newTurret));
+                            }
+                        }
+                    }
                 }
                    
             }
@@ -91,13 +125,18 @@ int main()
                 enemy->update(deltaTime);
             }
 
+            for (auto& turret : turrets)
+            {
+                turret->update(deltaTime, enemies);
+            }
+
             enemies.erase(
                 std::remove_if(
                     enemies.begin(),
                     enemies.end(),
                     [](const std::unique_ptr<Enemy>& enemy)
                     {
-                        return enemy->hasReachedDestination();
+                        return enemy->hasReachedDestination() || !enemy->isAlive();
                     }
                 ),
                 enemies.end()
@@ -109,6 +148,11 @@ int main()
             for (const auto& enemy : enemies)
             {
                 enemy->draw(window);
+            }
+
+            for (const auto& turret : turrets)
+            {
+                turret->draw(window);
             }
 
             window.display();
