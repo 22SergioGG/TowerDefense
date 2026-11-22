@@ -22,8 +22,10 @@ public:
     Enemy();
     Enemy(int health, float spriteSize);
 
+   
     virtual ~Enemy() = default;
 
+    int getHealth() const;
     float getDistanceToDestination() const;
     void setPosition(sf::Vector2f position);
     void setPath(std::vector<sf::Vector2f> newPath);
@@ -31,7 +33,6 @@ public:
     void draw(sf::RenderWindow& window);
     bool hasReachedDestination() const;
     void takeDamage(int damage);
-    int getHealth() const;
     bool isAlive() const;
     sf::Vector2f getPosition() const;
 

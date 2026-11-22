@@ -7,7 +7,7 @@ Enemy::Enemy()
 {
 }
 
-Enemy::Enemy(int health, float spriteSize)
+Enemy::Enemy(int health,  float spriteSize)
     : enemyTexture("assets/enemy.png"),
     enemySprite(enemyTexture),
     health(health),

@@ -5,7 +5,7 @@
 Projectile::Projectile(sf::Vector2f startPosition, sf::Vector2f targetPosition)
     : projectileTexture("assets/projectile.png"),
     projectileSprite(projectileTexture),
-    speed(1000.f),
+    speed(1500.f),
     damage(25)
 {
     projectileSprite.setPosition(startPosition);

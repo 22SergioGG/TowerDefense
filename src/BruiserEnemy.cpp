@@ -1,7 +1,7 @@
 #include "BruiserEnemy.h"
 
-BruiserEnemy::BruiserEnemy()
-    : Enemy(150, 1.5f)
+BruiserEnemy::BruiserEnemy(int health)
+    : Enemy(static_cast<int>(health * 1.25f), 1.25f)
 {
 }
 

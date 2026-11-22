@@ -8,5 +8,5 @@ protected:
     float getMovementSpeed() const override;
 
 public:
-    BruiserEnemy();
+    BruiserEnemy(int health);
 };

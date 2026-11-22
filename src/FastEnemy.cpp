@@ -1,7 +1,7 @@
 #include "FastEnemy.h"
 
-FastEnemy::FastEnemy()
-    : Enemy(50, 0.75f)
+FastEnemy::FastEnemy(int health)
+    : Enemy(static_cast<int>(health * 0.75f), 0.75f)
 {
 }
 

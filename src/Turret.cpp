@@ -50,7 +50,7 @@ void Turret::update(float deltaTime, std::vector<std::unique_ptr<Enemy>>& enemie
 
     for (const auto& enemy : enemies)
     {
-        if (!enemy->isAlive())
+        if (!enemy->isAlive() || enemy->hasReachedDestination())
         {
             continue;
         }
@@ -121,7 +121,7 @@ void Turret::update(float deltaTime, std::vector<std::unique_ptr<Enemy>>& enemie
 
                     float distance = std::hypot(difference.x, difference.y);
 
-                    if (distance < 50.f)
+                    if (distance < 25.0f)
                     {
                         enemy->takeDamage(projectile->getDamage());
                         return true;

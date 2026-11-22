@@ -13,4 +13,5 @@ namespace Config
 
     constexpr int WINDOW_WIDTH = MAP_WIDTH * TILE_SIZE;
     constexpr int WINDOW_HEIGHT = MAP_HEIGHT * TILE_SIZE;
+
 }
