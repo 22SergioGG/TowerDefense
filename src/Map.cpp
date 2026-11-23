@@ -3,7 +3,6 @@
 
 #include <stdexcept>
 #include <queue>
-#include <algorithm>
 #include <vector>
 
 Map::Map()
@@ -137,8 +136,8 @@ std::vector<sf::Vector2f> Map::findPath() const
         std::vector<sf::Vector2i>(Config::MAP_WIDTH, { -1, -1 })
     );
 
-    queue.push(start);
-    previous[start.y][start.x] = start;
+    queue.push(destination);
+    previous[destination.y][destination.x] = destination;
 
     const sf::Vector2i directions[] =
     {
@@ -153,7 +152,7 @@ std::vector<sf::Vector2f> Map::findPath() const
         sf::Vector2i current = queue.front();
         queue.pop();
 
-        if (current == destination)
+        if (current == start)
         {
             break;
         }
@@ -175,7 +174,7 @@ std::vector<sf::Vector2f> Map::findPath() const
 
             char tile = mapLayout[next.y][next.x];
 
-            if (tile != 'P' && tile != 'D')
+            if (tile != 'P' && tile != 'S')
             {
                 continue;
             }
@@ -185,22 +184,20 @@ std::vector<sf::Vector2f> Map::findPath() const
         }
     }
 
-    if (previous[destination.y][destination.x].x == -1)
+    if (previous[start.y][start.x].x == -1)
     {
         throw std::runtime_error("No path to destination!");
     }
         
     std::vector<sf::Vector2f> path;
 
-    sf::Vector2i current = destination;
+    sf::Vector2i current = start;
 
-    while (current != start)
+    while (current != destination)
     {
         path.push_back(tileToWorldCenter(current));
         current = previous[current.y][current.x];
     }
-
-    std::reverse(path.begin(), path.end());
 
     return path;
 }
